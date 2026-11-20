@@ -1,0 +1,9 @@
+[Unit]
+Description=Watch /opt/turbopi/inbox for turbopi_app installers (*.run)
+
+[Path]
+PathExistsGlob=/opt/turbopi/inbox/*.run
+Unit=turbopi-inbox.service
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,16 @@
+# 构建产物（不入库）
+output/
+dist/
+
+# 车机离线依赖（体积大且是二进制，用 donkey/fetch_wheels.sh 生成）
+donkey/vendor/
+
+# Python 缓存
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
