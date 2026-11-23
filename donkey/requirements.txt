@@ -1,0 +1,4 @@
+# 车上只需要 donkeycar 本体（不带训练依赖）：
+#   - 训练用的 tensorflow / matplotlib / kivy 等都在 PC 上装，不落到车机
+#   - 版本与 Python 版本强相关：donkeycar 5.4.x 要求 python>=3.12,<3.14
+donkeycar==5.4.0

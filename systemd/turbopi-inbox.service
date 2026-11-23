@@ -1,0 +1,7 @@
+[Unit]
+Description=Apply turbopi_app installer dropped into /opt/turbopi/inbox
+
+[Service]
+Type=oneshot
+ExecStart=/opt/turbopi/bin/apply-inbox.sh
+TimeoutStartSec=300

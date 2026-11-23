@@ -1,0 +1,21 @@
+#!/bin/sh
+# 车机上的统一入口：省掉每次 export PYTHONPATH 和超长命令行
+#   /opt/turbopi/bin/car monitor     只看手柄，不动电机
+#   /opt/turbopi/bin/car buttons     打印手柄真正上报的按键/轴
+#   /opt/turbopi/bin/car drive       用真 donkeycar 车辆循环开车
+#   /opt/turbopi/bin/car bench --duty 30 --ms 1200
+# 注意：服务正在跑时先 systemctl stop turbopi，USB 手柄接口是独占的
+set -e
+
+APP=/opt/turbopi
+export PYTHONPATH="$APP/src:$APP/donkey/vendor/site-packages"
+export PYTHONUNBUFFERED=1
+# 与 turbopi.service 保持一致
+export TURBOPI_BACKEND="${TURBOPI_BACKEND:-i2c}"
+export TURBOPI_I2C_BUSES="${TURBOPI_I2C_BUSES:-3,7}"
+export TURBOPI_I2C_ADDR="${TURBOPI_I2C_ADDR:-0x7A}"
+export TURBOPI_I2C_SIGNS="${TURBOPI_I2C_SIGNS:-1,-1,1,-1}"
+export TURBOPI_MAX_DUTY="${TURBOPI_MAX_DUTY:-30}"
+
+cd "$APP/donkey"
+exec /usr/bin/python3 manage.py "$@"

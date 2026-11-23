@@ -1,0 +1,28 @@
+[Unit]
+Description=TurboPi car (donkeycar on Hiwonder I2C HAL, gamepad drive)
+After=multi-user.target bluetooth.service
+Wants=multi-user.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/turbopi/donkey
+Environment=PYTHONPATH=/opt/turbopi/src:/opt/turbopi/donkey/vendor/site-packages
+Environment=PYTHONUNBUFFERED=1
+# 后端必须是 i2c：auto 在电池没开时会静默回退到 AA55 串口，日志正常但车轮不动
+Environment=TURBOPI_BACKEND=i2c
+Environment=TURBOPI_I2C_BUSES=3,7
+Environment=TURBOPI_I2C_ADDR=0x7A
+Environment=TURBOPI_I2C_SIGNS=1,-1,1,-1
+# 普通档占空比上限（加速扳机 RT 会抬到 myconfig 里的 GAMEPAD_BOOST_DUTY=100）
+Environment=TURBOPI_MAX_DUTY=30
+Environment=TURBOPI_MAX_LINEAR=0.5
+ExecStart=/usr/bin/python3 /opt/turbopi/donkey/manage.py drive --wait
+Restart=always
+RestartSec=3
+KillSignal=SIGINT
+TimeoutStopSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
